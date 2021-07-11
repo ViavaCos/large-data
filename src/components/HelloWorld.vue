@@ -79,7 +79,7 @@ export default {
     // },
     // 更新数据结构
     updateDataStructure(data){
-      const tempObject = {}
+      const tempObject = {A:'',B:'',C:'',D:'',E:'',F:'',G:'',H:'',I:'',J:'',K:'',L:'',M:'',N:'',O:'',P:'',Q:'',R:'',S:'',T:'',U:'',V:'',W:'',X:'',Y:'',Z:''}
       data.forEach(item => {
         if(!tempObject[item.letter]) {
           tempObject[item.letter] = []
