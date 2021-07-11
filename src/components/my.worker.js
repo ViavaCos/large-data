@@ -7,7 +7,7 @@ onmessage = (event) => {
 
     if (keywords){
         list = list.filter(item => item.name.includes(keywords))
-        console.log(4);
+        // console.log(4);
     }
     
     console.log('++++++++++++++++++++++++++++++++++++++');
