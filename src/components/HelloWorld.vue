@@ -1,5 +1,7 @@
 <template>
   <div class="wrap">
+    <p>"深蓝的天空中挂着一轮金黄的圆月下面是海边的沙地都种着一望无际的碧绿的西瓜其间有一个十一二岁的少年项带银圈手捏一柄钢叉向一匹猹尽力地刺去那猹却将身一扭反从他的胯下逃走了"</p>
+    <br><br>
     <input placeholder="输入关键字查询" type="text">
     <br><br>
     <div class="hello">
