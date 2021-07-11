@@ -28,6 +28,8 @@
 
 <script>
 import LargeData from '@/data/index.json'
+import Worker from './my.worker.js'
+
 export default {
   name: 'HelloWorld',
   data(){
@@ -35,7 +37,8 @@ export default {
       LargeData: Object.freeze(LargeData),
       selectLetter: '', // 当前选中的字母
       searchKeywords: '', // 搜索关键字
-      tempObject: {}
+      tempObject: {},
+      resultData: [] // 结果渲染数组
     }
   },
   created(){
@@ -43,20 +46,28 @@ export default {
     this.updateDataStructure(this.LargeData)
     // this.initIndexedDB()
   },
-  computed: {
-    // 结果渲染
-    resultData(){
-      let result = this.LargeData || []
-      if(this.selectLetter) {
-        result = this.tempObject[this.selectLetter]
-      }
-
-      if(this.searchKeywords) {
-        return result.filter(item => item.name.includes(this.searchKeywords))
-      }
-      
-      return result
+  watch: {
+    selectLetter(){
+      this.getResultInWorker()
+    },
+    searchKeywords(){
+      this.getResultInWorker()
     }
+  },
+  computed: {
+    // // 结果渲染
+    // resultData(){
+    //   let result = this.LargeData || []
+    //   if(this.selectLetter) {
+    //     result = this.tempObject[this.selectLetter]
+    //   }
+
+    //   if(this.searchKeywords) {
+    //     return result.filter(item => item.name.includes(this.searchKeywords))
+    //   }
+      
+    //   return result
+    // }
   },
   methods:{
     // initIndexedDB(){
@@ -99,6 +110,20 @@ export default {
     // 输入框值变更
     inputChange(val){
       console.log(val);
+    },
+    getResultInWorker(){
+      const worker = new Worker()
+      worker.postMessage({
+        origin: JSON.stringify(this.LargeData), // 原始数据
+        data: JSON.stringify(this.tempObject), // 分类后数据
+        letter: this.selectLetter, // 筛选字母
+        keywords: this.searchKeywords // 筛选关键字
+      })
+      worker.onmessage = (e) => {
+        console.log('receive message----------', e);
+        this.resultData = e.data || []
+      }
+      console.log('worker', worker);
     }
   }
 }
