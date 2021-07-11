@@ -45,6 +45,7 @@ export default {
     // console.log(this.LargeData);
     this.updateDataStructure(this.LargeData)
     // this.initIndexedDB()
+    this.getResultInWorker() // 初始化默认数据
   },
   watch: {
     selectLetter(){
@@ -122,6 +123,7 @@ export default {
       worker.onmessage = (e) => {
         console.log('receive message----------', e);
         this.resultData = e.data || []
+        worker.terminate()
       }
       console.log('worker', worker);
     }
